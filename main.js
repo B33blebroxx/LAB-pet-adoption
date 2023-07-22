@@ -241,19 +241,55 @@ const pets = [
     }
   ];
 
-  const targetingApp = document.querySelector("#app");
+  const app = document.querySelector("#app");
 
-  let domString = '';
-  for (const pet of pets) {
-   domString += `<div class="card" style="width: 18rem;">
-  <img src="${pet.imageURL}" class="card-img-top" alt="${pet.name}">
-  <div class="card-body">
+  const renderToDom = (divId, html) => {
+    const targetedDiv = document.querySelector(divId)
+    targetedDiv.innerHTML = html
+  }
+
+  const petsOnDom = (array) => {
+    let domString = ''
+    for (const pet of array) {
+    domString += `<div class="card" style="width: 18rem;">
+    <img src="${pet.imageURL}" class="card-img-top" alt="${pet.name}">
+    <div class="card-body">
     <h5 class="card-title">${pet.name} </h5>
     <p class="card-text"> ${pet.type} </p>
     <p class="card-text"> ${pet.color} </p>
     <p class="card-text"> ${pet.specialSkill} </p>
     <a href="#" class="btn btn-primary">Go somewhere</a>
-  </div>
-</div>`
+   </div>
+   </div>`
   }
-   targetingApp.innerHTML = domString
+   
+ renderToDom("#app", domString)
+  }
+
+petsOnDom(pets)
+
+ const filterContainer = document.querySelector("#filter-container")
+
+ const filterPetsByType = (type) => {
+  const filteredPets = pets.filter((pet) => pet.type === type)
+  petsOnDom(filteredPets)
+ }
+ 
+ filterContainer.addEventListener('click', (e) => {
+  if (e.target.id === 'green-btn') {
+     const dinoPets = pets.filter((pet) => pet.type === 'dino') 
+     petsOnDom(dinoPets);
+  }
+  if (e.target.id === 'orange-btn') {
+    const catPets = pets.filter((pet) => pet.type === 'cat')
+    petsOnDom(catPets)
+  }
+  if (e.target.id === 'red-btn') {
+    const dogPets = pets.filter((pet) => pet.type === 'dog')
+    petsOnDom(dogPets)
+  }
+  if (e.target.id === 'all-btn') {
+    petsOnDom(pets)
+  }
+})
+ 
